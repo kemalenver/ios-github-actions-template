@@ -7,7 +7,7 @@
 # Decrypt the files
 # --batch to prevent interactive command --yes to assume "yes" for questions
 gpg --quiet --batch --yes --decrypt --passphrase="$PROVISIONING_PASSWORD" --output provisioning/AppStoreCertificates.p12 provisioning/AppStoreCertificates.p12.gpg
-gpg --quiet --batch --yes --decrypt --passphrase="$PROVISIONING_PASSWORD" --output provisioning/release.mobileprovision provisioning/appstorexcodeactionssetup.mobileprovision.gpg
+gpg --quiet --batch --yes --decrypt --passphrase="$PROVISIONING_PASSWORD" --output provisioning/appstorexcodeactionssetup.mobileprovision provisioning/appstorexcodeactionssetup.mobileprovision.gpg
 
 mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
 

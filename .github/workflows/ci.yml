@@ -18,16 +18,16 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  Test:
-    runs-on: macOS-latest
-    steps:
-    - uses: actions/checkout@v1
-    - name: List available Xcode versions
-      run: ls /Applications | grep Xcode
-    - name: Select Xcode
-      run: sudo xcode-select -switch /Applications/Xcode_11.6.app && /usr/bin/xcodebuild -version
-    - name: Run unit tests
-      run: xcodebuild test -scheme xcode-actions-setup -project xcode-actions-setup.xcodeproj -destination 'platform=iOS Simulator,name=iPhone 11,OS=13.6' | xcpretty && exit ${PIPESTATUS[0]}
+  # Test:
+  #   runs-on: macOS-latest
+  #   steps:
+  #   - uses: actions/checkout@v1
+  #   - name: List available Xcode versions
+  #     run: ls /Applications | grep Xcode
+  #   - name: Select Xcode
+  #     run: sudo xcode-select -switch /Applications/Xcode_11.6.app && /usr/bin/xcodebuild -version
+  #   - name: Run unit tests
+  #     run: xcodebuild test -scheme xcode-actions-setup -project xcode-actions-setup.xcodeproj -destination 'platform=iOS Simulator,name=iPhone 11,OS=13.6' | xcpretty && exit ${PIPESTATUS[0]}
 
   Build:
     runs-on: macOS-latest
