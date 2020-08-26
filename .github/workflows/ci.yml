@@ -27,4 +27,4 @@ jobs:
     - name: Select Xcode
       run: sudo xcode-select -switch /Applications/Xcode_11.6.app && /usr/bin/xcodebuild -version
     - name: Run unit tests
-      run: xcodebuild test -scheme CocoaHeadsNL -project xcode-actions-setup.xcodeproj -destination 'platform=iOS Simulator,name=iPhone XS,OS=13.6' | xcpretty && exit ${PIPESTATUS[0]}
+      run: xcodebuild test -scheme xcode-actions-setup -project xcode-actions-setup.xcodeproj -destination 'platform=iOS Simulator,name=iPhone XS,OS=13.6' | xcpretty && exit ${PIPESTATUS[0]}
