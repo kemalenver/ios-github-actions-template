@@ -28,3 +28,26 @@ jobs:
       run: sudo xcode-select -switch /Applications/Xcode_11.6.app && /usr/bin/xcodebuild -version
     - name: Run unit tests
       run: xcodebuild test -scheme xcode-actions-setup -project xcode-actions-setup.xcodeproj -destination 'platform=iOS Simulator,name=iPhone 11,OS=13.6' | xcpretty && exit ${PIPESTATUS[0]}
+
+  Build:
+    runs-on: macOS-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Install GPG
+      run: brew install gnupg
+    - name: List available Xcode versions
+      run: ls /Applications | grep Xcode
+    - name: Decrypt large secret
+      run: ./provisioning/import_provisioning.sh
+      env:
+        PROVISIONING_PASSWORD: ${{ secrets.provisioning_password }}
+    - name: Select Xcode
+      run: sudo xcode-select -switch /Applications/Xcode_11.6.app && /usr/bin/xcodebuild -version
+    - name: Build archive
+      run: xcodebuild -sdk iphoneos -project xcode-actions-setup.xcodeproj -configuration Release -scheme xcode-actions-setup -derivedDataPath DerivedData -archivePath DerivedData/Archive/xcode-actions-setup archive
+    - name: Export Archive
+      run: xcodebuild -exportArchive -archivePath DerivedData/Archive/xcode-actions-setup.xcarchive -exportOptionsPlist provisioning/App-Store.plist -exportPath DerivedData/ipa
+    - name: Dump file hierarchy
+      run: ls -R
+    - name: Deploy App to Apple
+      run: xcrun altool --upload-app --type ios --file DerivedData/ipa/xcode-actions-setup.ipa --username "${{ secrets.appstore_connect_username }}" --password "${{ secrets.appstore_connect_password }}" --verbose
